@@ -1,0 +1,34 @@
+server:
+  port: 4004
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: employee-management-route
+          uri: http://employee-management:3000
+          predicates:
+            - Path=/api/employee/**
+          filters:
+            - StripPrefix=2
+
+        - id: tenan-management-route
+          uri: http://tenan-management:3001
+          predicates:
+            - Path=/api/tenan/**
+          filters:
+            - StripPrefix=2
+
+        - id: api-docs-employee-route
+          uri: http://employee-management:3000
+          predicates:
+            - Path=/api-docs/employee
+          filters:
+            - RewritePath=/api-docs/patients,/documentation
+
+        - id: api-docs-tenan-route
+          uri: http://tenan-management:3001
+          predicates:
+            - Path=/api-docs/tenan
+          filters:
+            - RewritePath=/api-docs/auth,/documentation
