@@ -12,8 +12,10 @@ services:
       - NODE_ENV=production
       - APP_NAME=employee-management
     volumes:
-      - .:/usr/src/app
+      - ./apps/employee-management:/usr/src/app/apps/employee-management
+      - ./libs:/usr/src/app/libs
       - /usr/src/app/node_modules
+      - ./logs:/usr/src/app/logs
     restart: unless-stopped
     networks:
       - ppa
@@ -29,8 +31,10 @@ services:
       - NODE_ENV=production
       - APP_NAME=tenan-management
     volumes:
-      - .:/usr/src/app
+      - ./apps/tenan-management:/usr/src/app/apps/tenan-management
+      - ./libs:/usr/src/app/libs
       - /usr/src/app/node_modules
+      - ./logs:/usr/src/app/logs
     restart: unless-stopped
     networks:
       - ppa
@@ -40,7 +44,7 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus.prod.yml:/etc/prometheus/prometheus.yml
     networks:
       - ppa
 
