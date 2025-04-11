@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import * as path from 'path';
+import { TypeOrmWinstonLogger } from '@app/logger';
 
 @Injectable()
 export class OrganizationStructureService implements TypeOrmOptionsFactory {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly typeOrmLogger: TypeOrmWinstonLogger,
+  ) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
@@ -23,6 +27,7 @@ export class OrganizationStructureService implements TypeOrmOptionsFactory {
       ],
       autoLoadEntities: true,
       logging: true,
+      logger: this.typeOrmLogger,
     };
   }
 }

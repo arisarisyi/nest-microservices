@@ -5,13 +5,13 @@ scrape_configs:
   - job_name: 'employee-management'
     metrics_path: /api/employee/metrics
     static_configs:
-      - targets: [ 'api-gateway-for-nest:4004' ]
+      - targets: [ 'api-gateway-ppa:4004' ]
         labels:
           service: 'employee'
 
   - job_name: 'tenan-management'
     metrics_path: /api/tenan/metrics
     static_configs:
-      - targets: [ 'api-gateway-for-nest:4004' ]
+      - targets: [ 'api-gateway-ppa:4004' ]
         labels:
           service: 'tenan'

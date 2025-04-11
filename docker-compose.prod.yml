@@ -12,9 +12,6 @@ services:
       - NODE_ENV=production
       - APP_NAME=employee-management
     volumes:
-      - ./apps/employee-management:/usr/src/app/apps/employee-management
-      - ./libs:/usr/src/app/libs
-      - /usr/src/app/node_modules
       - ./logs:/usr/src/app/logs
     restart: unless-stopped
     networks:
@@ -31,9 +28,6 @@ services:
       - NODE_ENV=production
       - APP_NAME=tenan-management
     volumes:
-      - ./apps/tenan-management:/usr/src/app/apps/tenan-management
-      - ./libs:/usr/src/app/libs
-      - /usr/src/app/node_modules
       - ./logs:/usr/src/app/logs
     restart: unless-stopped
     networks:

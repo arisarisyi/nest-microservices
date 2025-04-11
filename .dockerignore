@@ -15,3 +15,5 @@ logs
 .eslintrc.js
 .prettierrc
 README.md
+Dockerfile
+docker-compose*
