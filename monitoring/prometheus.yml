@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'employee-management'
+    static_configs:
+      - targets: ['employee-management:3000']
+
+  - job_name: 'tenan-management'
+    static_configs:
+      - targets: ['tenan-management:3001']

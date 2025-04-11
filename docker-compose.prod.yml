@@ -1,0 +1,66 @@
+name: ppa
+
+services:
+  employee-management:
+    container_name: employee-management
+    build:
+      context: .
+      dockerfile: apps/employee-management/Dockerfile
+    env_file:
+      - ./apps/employee-management/.env.production
+    environment:
+      - NODE_ENV=production
+      - APP_NAME=employee-management
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    networks:
+      - ppa
+
+  tenan-management:
+    container_name: tenan-management
+    build:
+      context: .
+      dockerfile: apps/tenan-management/Dockerfile
+    env_file:
+      - ./apps/tenan-management/.env.production
+    environment:
+      - NODE_ENV=production
+      - APP_NAME=tenan-management
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    networks:
+      - ppa
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - ppa
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3002:3000"
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    networks:
+      - ppa
+
+volumes:
+  grafana-storage:
+
+networks:
+  ppa:
+    external: true
+    name: ppa
+

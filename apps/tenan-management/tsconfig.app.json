@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json", // Pastikan ini mengarah ke tsconfig.json root
+  "compilerOptions": {
+    "outDir": "../../dist/apps/tenan-management",
+    "rootDir": "../../", // Perluas rootDir ke direktori monorepo
+    "baseUrl": "./",
+    "paths": {
+      "@app/logger": ["../../libs/logger/src/index.ts"] // Mapping path ke library
+    }
+  },
+  "include": [
+    "src/**/*",
+    "../../libs/logger/src/**/*" // Include library ke dalam scope aplikasi
+  ],
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}

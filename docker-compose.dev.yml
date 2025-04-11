@@ -1,0 +1,73 @@
+name: ppa
+
+services:
+  employee-management:
+    container_name: employee-management
+    build:
+      context: .
+      dockerfile: apps/employee-management/Dockerfile
+    env_file:
+      - ./apps/employee-management/.env.development
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - APP_NAME=employee-management
+    volumes:
+      - ./apps/employee-management:/usr/src/app/apps/employee-management
+      - ./libs:/usr/src/app/libs
+      - /usr/src/app/node_modules
+      - ./logs:/usr/src/app/logs
+    restart: unless-stopped
+    networks:
+      - ppa
+
+  tenan-management:
+    container_name: tenan-management
+    build:
+      context: .
+      dockerfile: apps/tenan-management/Dockerfile
+    env_file:
+      - ./apps/tenan-management/.env.development
+    ports:
+      - "3001:3001"       # Host port 3001 → Container port 3000 (asumsi app berjalan di 3000 di dalam container)
+    environment:
+      - NODE_ENV=development
+      - APP_NAME=tenan-management
+    volumes:
+      - ./apps/tenan-management:/usr/src/app/apps/tenan-management
+      - ./libs:/usr/src/app/libs
+      - /usr/src/app/node_modules
+      - ./logs:/usr/src/app/logs
+    restart: unless-stopped
+    networks:
+      - ppa
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - ppa
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3002:3000"       # Host port 3002 → Container port 3000 (pastikan tidak konflik dengan service lain)
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+    networks:
+      - ppa
+
+volumes:
+  grafana-storage:
+
+networks:
+  ppa:
+    external: true
+    name: ppa

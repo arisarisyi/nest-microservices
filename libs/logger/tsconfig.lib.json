@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../dist/libs/logger",
+    "rootDir": "src",
+    "composite": true, // Pastikan composite diaktifkan
+    "declaration": true // Pastikan declaration diaktifkan
+  },
+  "include": ["src/**/*"]
+}
